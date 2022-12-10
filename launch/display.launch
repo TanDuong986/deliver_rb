@@ -21,10 +21,12 @@
   <node pkg="joint_state_publisher" name="joint_state_publisher"  type="joint_state_publisher" ></node>
   
   <node pkg="deliver_rb" name="teleop" type="teleop.py" ></node>
-
+  <node remap "scan" to "deliver_rb/laser/scan" ></node>
+	
   <node pkg="robot_state_publisher" name="robot_state_publisher"  type="robot_state_publisher" output="screen" > 
   <param name="publish_frequency" type="double" value="20.0" />
 	</node>
+	
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -x 1.0 -y 1.0 -z 0.1 -model robot_model" respawn="false" output="screen"/>
   
   <group if="$(arg open_rviz)">  
