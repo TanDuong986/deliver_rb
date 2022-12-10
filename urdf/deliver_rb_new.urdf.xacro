@@ -98,7 +98,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/base_link.STL" />
+          filename="package://deliver_rb/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -112,7 +112,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/base_link.STL" />
+          filename="package://deliver_rb/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -138,7 +138,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/right_wheel.STL" />
+          filename="package://deliver_rb/meshes/right_wheel.STL" />
       </geometry>
       <material
         name="">
@@ -152,7 +152,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/right_wheel.STL" />
+          filename="package://deliver_rb/meshes/right_wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -191,7 +191,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/left_wheel.STL" />
+          filename="package://deliver_rb/meshes/left_wheel.STL" />
       </geometry>
       <material
         name="">
@@ -205,7 +205,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/left_wheel.STL" />
+          filename="package://deliver_rb/meshes/left_wheel.STL" />
       </geometry>
     </collision>
   </link>
@@ -244,7 +244,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/pole.STL" />
+          filename="package://deliver_rb/meshes/pole.STL" />
       </geometry>
       <material
         name="">
@@ -258,7 +258,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/pole.STL" />
+          filename="package://deliver_rb/meshes/pole.STL" />
       </geometry>
     </collision>
   </link>
@@ -297,7 +297,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/free_forward.STL" />
+          filename="package://deliver_rb/meshes/free_forward.STL" />
       </geometry>
       <material
         name="">
@@ -311,7 +311,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/free_forward.STL" />
+          filename="package://deliver_rb/meshes/free_forward.STL" />
       </geometry>
     </collision>
   </link>
@@ -350,7 +350,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/free_backward.STL" />
+          filename="package://deliver_rb/meshes/free_backward.STL" />
       </geometry>
       <material
         name="">
@@ -364,7 +364,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/free_backward.STL" />
+          filename="package://deliver_rb/meshes/free_backward.STL" />
       </geometry>
     </collision>
   </link>
@@ -403,7 +403,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/basket.STL" />
+          filename="package://deliver_rb/meshes/basket.STL" />
       </geometry>
       <material
         name="">
@@ -417,7 +417,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/basket.STL" />
+          filename="package://deliver_rb/meshes/basket.STL" />
       </geometry>
     </collision>
   </link>
@@ -456,7 +456,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/hat.STL" />
+          filename="package://deliver_rb/meshes/hat.STL" />
       </geometry>
       <material
         name="">
@@ -470,7 +470,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://fix/meshes/hat.STL" />
+          filename="package://deliver_rb/meshes/hat.STL" />
       </geometry>
     </collision>
   </link>
@@ -487,35 +487,5 @@
     <axis
       xyz="0 0 0" />
   </joint>
-
-  <!-- Hokuyo Laser -->
-  <!-- <link name="laser">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-    <box size="0.1 0.1 0.1"/>
-      </geometry>
-    </collision>
-
-    <visual>
-      <origin xyz="0.0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="package://deliver_rb/meshes/hokuyo.dae"/>
-      </geometry>
-    </visual>
-
-    <inertial>
-      <mass value="1e-5" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
-    </inertial>
-  </link> -->
-  <!-- CPU Lidar join-->
-  <!-- <joint name="laser_join" type="fixed">
-    <axis xyz="0 0 0" />
-    <origin xyz="0 0.2 0.04" rpy="0 0 0"/>
-    <parent link="base_link"/>
-    <child link="laser"/>
-  </joint> -->
 
 </robot>
