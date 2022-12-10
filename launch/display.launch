@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <launch>
-	<include file="$(find gazebo_ros)/launch/empty_world.launch" > 
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" > 
     <arg name="use_sim_time" value="true"/>
     <arg name="debug" value="false"/>
     <arg name="gui" value="true"/>
-		<arg name="world_name" value="$(find deliver_rb)/worlds/turtlebot3_house.world"/> 
+    <arg name="world_name" value="$(find deliver_rb)/worlds/turtlebot3_house.world"/> 
   </include>
 
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
@@ -25,7 +25,7 @@
   <node pkg="robot_state_publisher" name="robot_state_publisher"  type="robot_state_publisher" output="screen" > 
   <param name="publish_frequency" type="double" value="20.0" />
 	</node>
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -z 0.1 -model robot_model" respawn="false" output="screen"/>
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -x 1.0 -y 1.0 -z 0.1 -model robot_model" respawn="false" output="screen"/>
   
   <group if="$(arg open_rviz)">  
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find deliver_rb)/display.rviz" />
