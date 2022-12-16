@@ -1,0 +1,521 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" 
+ 	     xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+    	 xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+    	 xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+  name="deliver_rb">
+
+  <!-- LASER ATTACHMENT -->
+  <xacro:include filename="$(find deliver_rb)/urdf/hokuyo.xacro"/>
+
+  <xacro:hokuyo_sensor parent="base_link">
+	</xacro:hokuyo_sensor>
+  
+  <!-- Import all Gazebo-customization elements, including Gazebo colors, sensors, controller -->
+  <xacro:include filename="$(find deliver_rb)/urdf/plug_in.gazebo" />
+
+
+  <xacro:property name="length_wheel" value="0.06" />
+	<xacro:property name="radius_wheel" value="0.08" />
+	<xacro:property name="mass_wheel" value="1.5" />
+	<xacro:property name="distance_2wheels" value="0.5" />	
+
+	<xacro:property name="radius_base" value="0.6" />
+	<xacro:property name="length_base" value="0.02" />
+	<xacro:property name="mass_base" value="8" />
+	
+
+
+<!-- inertia for 3 popular shape -->
+  <xacro:macro name="default_inertia" params="mass">
+    <inertia>
+      <mass value="${mass}" />
+      <inertia 
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0" />
+    </inertia>
+	</xacro:macro>
+	
+	<xacro:macro name="cylinder_inertia" params="m r h">
+		<inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
+	    		iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
+	    		izz="${m*r*r/2}"
+  		/>
+	</xacro:macro>	
+
+	<xacro:macro name="sphere_inertia" params="m r">
+		<inertia
+			ixx="${2*m*r*r/5}" ixy = "0" ixz = "0"
+		    	iyy="${2*m*r*r/5}" iyz = "0"
+		    	izz="${2*m*r*r/5}"
+		/>
+	</xacro:macro>
+
+<!-- inertia for 3 popular shape -->
+
+  <!-- <link name="base_footprint">
+   		<visual>
+			<geometry>
+      				<box size="0.001 0.001 0.001"/>
+     			</geometry>
+			<origin rpy="0 0 0" xyz="0 0 0"/>
+   		</visual>
+		<xacro:default_inertia mass="0.0001"/>
+ 	</link>
+
+  <joint name="base_footprint_joint" type="fixed">
+		<origin xyz="0 0 0" />
+		<parent link="base_footprint" />
+		<child link="base_link" />
+	</joint> -->
+
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="${mass_base}" />
+      <inertia
+        ixx="0.050269"
+        ixy="-2.0827E-19"
+        ixz="4.6001E-20"
+        iyy="0.025394"
+        iyz="-3.8944E-05"
+        izz="0.075619" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <link
+    name="right_wheel">
+    <inertial>
+      <origin
+        xyz="0.03 -3.4816E-18 -2.1002E-18"
+        rpy="0 0 0" />
+      <mass
+        value="1.1143" />
+      <inertia
+        ixx="0.0033919"
+        ixy="-5.9133E-20"
+        ixz="2.0016E-20"
+        iyy="0.0020008"
+        iyz="-6.9002E-20"
+        izz="0.0020008" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/right_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.3 0.3 0.3 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/right_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_right_join"
+    type="continuous">
+    <origin
+      xyz="0.22 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="right_wheel" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="left_wheel">
+    <inertial>
+      <origin
+        xyz="-0.03 5.6191E-18 -8.8863E-19"
+        rpy="0 0 0" />
+      <mass
+        value="1.1143" />
+      <inertia
+        ixx="0.0033919"
+        ixy="-2.2094E-20"
+        ixz="7.1532E-21"
+        iyy="0.0020008"
+        iyz="-6.0621E-20"
+        izz="0.0020008" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/left_wheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.3 0.3 0.3 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/left_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_left_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.22 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="left_wheel" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="pole">
+    <inertial>
+      <origin
+        xyz="8.123E-17 0.015 0.4"
+        rpy="0 0 0" />
+      <mass
+        value="5.28" />
+      <inertia
+        ixx="0.282"
+        ixy="-2.4924E-19"
+        ixz="-6.3607E-18"
+        iyy="0.3029"
+        iyz="-4.6485E-19"
+        izz="0.021692" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/pole.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.45 0.5 0.5 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/pole.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_pole_join"
+    type="fixed">
+    <origin
+      xyz="0 -0.0549999999999999 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="pole" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="free_forward">
+    <inertial>
+      <origin
+        xyz="5.8055E-17 0 -0.02656"
+        rpy="0 0 0" />
+      <mass
+        value="0.36748" />
+      <inertia
+        ixx="0.00030896"
+        ixy="9.7335E-21"
+        ixz="-1.7523E-21"
+        iyy="0.00030896"
+        iyz="1.8168E-20"
+        izz="0.00037749" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/free_forward.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/free_forward.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pole_ff_join"
+    type="fixed">
+    <origin
+      xyz="0 0.24 -0.01"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <axis
+      xyz="1 0 0" />
+    <child
+      link="free_forward" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="free_backward">
+    <inertial>
+      <origin
+        xyz="8.23584312932801E-19 -2.77555756156289E-17 -0.0265597216130682"
+        rpy="0 0 0" />
+      <mass
+        value="0.367480429154608" />
+      <inertia
+        ixx="0.000308959164383823"
+        ixy="-3.20932602732956E-20"
+        ixz="6.13034352708779E-21"
+        iyy="0.000308959164383823"
+        iyz="-4.97822992799711E-21"
+        izz="0.000377486723963042" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/free_backward.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/free_backward.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pole_fb_join"
+    type="fixed">
+    <origin
+      xyz="0 -0.16 -0.01"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <axis
+      xyz="1 0 0" />
+    <child
+      link="free_backward" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="basket">
+    <inertial>
+      <origin
+        xyz="7.2301E-17 0.1 0.058846"
+        rpy="0 0 0" />
+      <mass
+        value="1.56" />
+      <inertia
+        ixx="0.012002"
+        ixy="-1.8494E-20"
+        ixz="-8.8287E-19"
+        iyy="0.01343"
+        iyz="-2.0716E-19"
+        izz="0.018212" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/basket.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89 0.5 0.7 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/basket.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="pole_basket_join"
+    type="fixed">
+    <origin
+      xyz="0 0.03 0.3"
+      rpy="0 0 0" />
+    <parent
+      link="pole" />
+    <child
+      link="basket" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="hat">
+    <inertial>
+      <origin
+        xyz="9.6903E-17 0 -0.005"
+        rpy="0 0 0" />
+      <mass
+        value="0.21914" />
+      <inertia
+        ixx="0.0001832"
+        ixy="-2.1741E-37"
+        ixz="-6.8081E-22"
+        iyy="0.00087919"
+        iyz="-1.3062E-21"
+        izz="0.0010587" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/hat.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89 0.7 0.7 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://deliver_rb/meshes/hat.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="basket_hat_join"
+    type="fixed">
+    <origin
+      xyz="0 0.0200000000000001 0.51"
+      rpy="0 0 0" />
+    <parent
+      link="basket" />
+    <child
+      link="hat" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+  <!-- Hokuyo Laser -->
+  <!-- <link name="laser">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://deliver_rb/meshes/hokuyo.dae"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link> -->
+  <!-- CPU Lidar join-->
+  <!-- <joint name="laser_join" type="fixed">
+    <axis xyz="0 0 0" />
+    <origin xyz="0 0.2 0.04" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="laser"/>
+  </joint> -->
+
+</robot>
